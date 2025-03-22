@@ -3,7 +3,7 @@ import requests
 from datetime import datetime
 
 st.set_page_config(page_title="Legal Advisor Chatbot", layout="wide")
-API_URL = "http://localhost:8000"
+API_URL = "http://backend:8000"
 
 
 # Initialize session state variables if they don't exist

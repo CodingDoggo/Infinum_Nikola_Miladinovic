@@ -23,9 +23,9 @@ def get_conversations(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Unable to determine client IP address")
 
     orm_conversations = (
-        db.query(Conversation)
+        db.query(Conversation.id, Conversation.ip_address, Conversation.title, Conversation.created_at, Conversation.updated_at)
         .filter(Conversation.ip_address == ip_address)
-        .order_by(Conversation.updated_at.desc())  # Sort from newest to oldest
+        .order_by(Conversation.updated_at.desc())
         .all()
     )
 
