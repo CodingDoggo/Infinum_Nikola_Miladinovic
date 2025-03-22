@@ -11,4 +11,4 @@ COPY frontend/ ./frontend/
 EXPOSE 8501
 
 # Updated path to the app.py file
-CMD ["streamlit", "run", "frontend/app_docker.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "frontend/app.py", "--server.port=8501", "--server.address=0.0.0.0"]

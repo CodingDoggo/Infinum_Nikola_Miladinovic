@@ -1,9 +1,17 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import os 
+from dotenv import load_dotenv
 
 st.set_page_config(page_title="Legal Advisor Chatbot", layout="wide")
-API_URL = "http://localhost:8000"
+
+load_dotenv()
+
+TARGET = os.getenv("FRONTEND_TARGET")
+API_URL = f"http://{TARGET}:8000"
+
+print(API_URL)
 
 
 # Initialize session state variables if they don't exist
