@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, F
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
-from backend_database.config import config
+from backend.config import config
 
 DATABASE_URL = config.DATABASE_URL
 
