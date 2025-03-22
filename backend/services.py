@@ -2,8 +2,8 @@ import openai
 import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
-from backend_database.config import config
-from backend_database.database import Conversation, Message
+from backend.config import config
+from backend.database import Conversation, Message
 from typing import List, Tuple
 
 load_dotenv()

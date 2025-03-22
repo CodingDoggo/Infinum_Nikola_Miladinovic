@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from backend_database.api import router as chat_router
-from backend_database.database import create_tables
+from backend.api import router as chat_router
+from backend.database import create_tables
 
 app = FastAPI(title="Infinum Legal Advisor Chatbot")
 

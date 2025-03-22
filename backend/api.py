@@ -4,15 +4,15 @@ from typing import List
 from datetime import datetime
 
 # Import Pydantic models for validation/serialization
-from backend_database.models import (
+from backend.models import (
     ChatRequest, 
     ChatResponse, 
     Conversation as ConversationSchema,  # Pydantic model
     Message as MessageSchema,              # Pydantic model
     ConversationCreate
 )
-from backend_database.services import get_ai_response
-from backend_database.database import Conversation, Message, get_db
+from backend.services import get_ai_response
+from backend.database import Conversation, Message, get_db
 
 router = APIRouter()
 
