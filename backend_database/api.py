@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import datetime
 
 # Import Pydantic models for validation/serialization
 from backend_database.models import (
@@ -20,8 +21,14 @@ def get_conversations(request: Request, db: Session = Depends(get_db)):
     ip_address = request.client.host
     if not ip_address:
         raise HTTPException(status_code=400, detail="Unable to determine client IP address")
-    orm_conversations = db.query(Conversation).filter(Conversation.ip_address == ip_address).all()
-    # Convert ORM objects to Pydantic models
+
+    orm_conversations = (
+        db.query(Conversation)
+        .filter(Conversation.ip_address == ip_address)
+        .order_by(Conversation.updated_at.desc())  # Sort from newest to oldest
+        .all()
+    )
+
     return [ConversationSchema.from_orm(conv) for conv in orm_conversations]
 
 @router.post("/conversations", response_model=ConversationSchema)
@@ -48,6 +55,12 @@ async def chat(request_data: ChatRequest, request: Request, db: Session = Depend
             request_data.question, 
             request_data.conversation_id
         )
+
+        conversation = db.query(Conversation).filter(Conversation.id == conversation_id).first()
+        if conversation:
+            conversation.updated_at = datetime.utcnow()
+            db.commit()
+
         return ChatResponse(answer=response_text, conversation_id=conversation_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

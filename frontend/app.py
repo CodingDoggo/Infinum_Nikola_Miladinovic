@@ -4,6 +4,7 @@ from datetime import datetime
 
 API_URL = "http://localhost:8000"
 
+
 # Initialize session state variables if they don't exist
 if 'current_conversation_id' not in st.session_state:
     st.session_state.current_conversation_id = None
@@ -12,16 +13,18 @@ if 'conversations' not in st.session_state:
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-# Function to load conversations from the backend
 def load_conversations():
     try:
         response = requests.get(f"{API_URL}/conversations")
         if response.ok:
-            st.session_state.conversations = response.json()
+            conversations = response.json()
+            # conversations.sort(key=lambda conv: conv["updated_at"], reverse=True)
+            st.session_state.conversations = conversations
         else:
             st.error("Error loading conversations.")
     except Exception as e:
         st.error(f"Error loading conversations: {e}")
+    
 
 # Function to load messages for a selected conversation
 def load_messages(conversation_id):
@@ -33,6 +36,13 @@ def load_messages(conversation_id):
             st.error("Error loading messages.")
     except Exception as e:
         st.error(f"Error loading messages: {e}")
+
+if not st.session_state.conversations:
+    load_conversations()
+
+# Ensure messages for the current conversation are loaded
+if st.session_state.current_conversation_id:
+    load_messages(st.session_state.current_conversation_id)
 
 # Function to create a new conversation with a custom title
 def create_new_conversation(title):
@@ -60,6 +70,7 @@ def send_message(question):
             data = response.json()
             st.session_state.current_conversation_id = data["conversation_id"]
             load_messages(st.session_state.current_conversation_id)
+            load_conversations()
         else:
             st.error("Error sending message.")
     except Exception as e:
@@ -75,24 +86,26 @@ with st.sidebar:
     
     # Section to create a new conversation with a custom title
     st.subheader("New Conversation")
-    new_title = st.text_input("Conversation Title", value="New Conversation", key="new_title")
+    # new_title = st.text_input("Conversation Title", value="New Conversation", key="new_title")
     if st.button("Create Conversation"):
-        if new_title.strip():
-            create_new_conversation(new_title.strip())
-        else:
-            st.error("Please provide a valid title.")
+        create_new_conversation("New Conversation")
+        load_conversations()
     
     st.markdown("---")
-    if st.button("Refresh Conversations"):
-        load_conversations()
+    # if st.button("Refresh Conversations"):
+        # load_conversations()
 
     st.markdown("### Existing Conversations")
     if st.session_state.conversations:
         for conv in st.session_state.conversations:
             # Format the creation date
-            dt = datetime.fromisoformat(conv["created_at"].replace("Z", "+00:00"))
-            date_str = dt.strftime("%Y-%m-%d %H:%M")
-            if st.button(f"{conv['title']} ({date_str})", key=f"conv_{conv['id']}"):
+            dt = datetime.fromisoformat(conv["updated_at"].replace("Z", "+00:00"))
+            date_str = dt.strftime("%b %d, %Y %H:%M")  # Example: "Mar 22, 2025 14:30"
+
+            # Shorten title if it's too long
+            short_title = conv["title"][:30] + "..." if len(conv["title"]) > 30 else conv["title"]
+
+            if st.button(f"{short_title} ({date_str})", key=f"conv_{conv['id']}"):
                 st.session_state.current_conversation_id = conv["id"]
                 load_messages(conv["id"])
     else:
@@ -125,4 +138,4 @@ else:
         submit_button = st.form_submit_button("Send")
         if submit_button and question.strip():
             send_message(question.strip())
-            # TODO FIX 
+            st.rerun()
