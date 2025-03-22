@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 from datetime import datetime
 
+st.set_page_config(page_title="Legal Advisor Chatbot", layout="wide")
 API_URL = "http://localhost:8000"
 
 
@@ -77,7 +78,6 @@ def send_message(question):
         st.error(f"Error sending message: {e}")
 
 # Configure the main page layout
-st.set_page_config(page_title="Legal Advisor Chatbot", layout="wide")
 st.title("🛡️ Infinum Legal Advisor Chatbot")
 
 # Sidebar: Conversation management
@@ -100,12 +100,12 @@ with st.sidebar:
         for conv in st.session_state.conversations:
             # Format the creation date
             dt = datetime.fromisoformat(conv["updated_at"].replace("Z", "+00:00"))
-            date_str = dt.strftime("%b %d, %Y %H:%M")  # Example: "Mar 22, 2025 14:30"
+            date_str = dt.strftime("%b %d, %Y")  # Example: "Mar 22, 2025"
 
             # Shorten title if it's too long
             short_title = conv["title"][:30] + "..." if len(conv["title"]) > 30 else conv["title"]
 
-            if st.button(f"{short_title} ({date_str})", key=f"conv_{conv['id']}"):
+            if st.button(f"{short_title} | {date_str}", key=f"conv_{conv['id']}"):
                 st.session_state.current_conversation_id = conv["id"]
                 load_messages(conv["id"])
     else:
@@ -131,6 +131,11 @@ else:
                 st.chat_message("assistant").write(msg["content"])
             except Exception:
                 st.write(f"🤖 Legal Advisor: {msg['content']}")
+                
+    st.markdown(
+        "<script>window.scrollTo(0, document.body.scrollHeight);</script>",
+        unsafe_allow_html=True,
+    )            
 
     # Form to send a new message
     with st.form(key="message_form", clear_on_submit=True):
