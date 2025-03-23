@@ -1,6 +1,6 @@
 # Legal Advisor Chatbot
 
-<img src="[https://i.pinimg.com/originals/32/18/15/3218153a3fe328da9c6694966c695dcd.jpg](https://imgur.com/a/w5KcwA2)" width="500px">
+![Legal Advisor Interface](https://i.imgur.com/IDbnAii.jpeg)
 
 ## Overview
 
