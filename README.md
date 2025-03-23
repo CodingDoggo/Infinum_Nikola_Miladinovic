@@ -24,15 +24,17 @@ Both branches can be run using the same methods described below.
 
 1. Create a `.env` file in the root directory (same location as `.env.example`)
 2. Configure the following environment variables:
+   - For variables with "your_" prefix: Replace with your actual credentials
+   - For other variables: Keep the default values as shown
 
 ```
 FRONTEND_TARGET="localhost"
 OPENAI_API_KEY="your_openai_api_key"
 DATABASE_HOST="localhost"
 DATABASE_PORT="5432"
-DATABASE_USER="your_database_user"
+DATABASE_USER="postgres"
 DATABASE_PASSWORD="your_database_password"
-DATABASE_NAME="your_database_name"
+DATABASE_NAME="legalchatbot"
 ```
 
 ## Running with Docker (Recommended)
