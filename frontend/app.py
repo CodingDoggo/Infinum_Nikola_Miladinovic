@@ -11,9 +11,6 @@ load_dotenv()
 TARGET = os.getenv("FRONTEND_TARGET")
 API_URL = f"http://{TARGET}:8000"
 
-print(API_URL)
-
-
 # Initialize session state variables if they don't exist
 if 'current_conversation_id' not in st.session_state:
     st.session_state.current_conversation_id = None

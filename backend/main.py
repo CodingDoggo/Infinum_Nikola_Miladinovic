@@ -4,7 +4,6 @@ from backend.database import create_tables
 
 app = FastAPI(title="Infinum Legal Advisor Chatbot")
 
-# Create database tables on startup
 @app.on_event("startup")
 async def startup_event():
     create_tables()
