@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:17
-    container_name: chatgpt_postgres
+    container_name: chatgpt_langchain_postgres
     restart: always
     environment:
       POSTGRES_USER: ${DATABASE_USER}
@@ -19,7 +19,7 @@ services:
   backend:
     build: 
       dockerfile: ./dockerized/backend/Dockerfile
-    container_name: chatgpt_backend
+    container_name: chatgpt_langchain_backend
     restart: always
     depends_on:
       - postgres
@@ -36,7 +36,7 @@ services:
   frontend:
     build:
       dockerfile: ./dockerized/frontend/Dockerfile
-    container_name: chatgpt_frontend
+    container_name: chatgpt_langchain_frontend
     restart: always
     depends_on:
       - backend
