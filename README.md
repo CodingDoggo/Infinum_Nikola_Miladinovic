@@ -24,6 +24,8 @@ Both branches can be run using the same methods described below.
 
 1. Create a `.env` file in the root directory (same location as `.env.example`)
 2. Configure the following environment variables:
+   - For variables with "your_" prefix: Replace with your actual credentials
+   - For other variables: Keep the default values as shown
 
 ```
 FRONTEND_TARGET="localhost"
