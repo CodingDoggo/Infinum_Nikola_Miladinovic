@@ -36,7 +36,7 @@ def get_ai_response(db: Session, ip_address: str, question: str, conversation_id
 
         llm = ChatOpenAI(
             model_name="gpt-3.5-turbo",
-            temperature=0.7,
+            temperature=0.4, # I want the AI to be clear and professional
             openai_api_key=config.OPENAI_API_KEY
         )
         
@@ -61,14 +61,17 @@ def get_ai_response(db: Session, ip_address: str, question: str, conversation_id
         prompt = PromptTemplate(
             input_variables=["chat_history", "input"],
             template="""
-            You are an expert legal advisor providing general legal guidance.
-            Do not provide personal legal representation or definitive legal conclusions.
+            You are an expert legal advisor providing general legal guidance.  
+            Your responses should be clear, professional, and informative.  
+            - You may explain legal principles, procedures, and general best practices.  
+            - You **must not** provide personal legal representation, draft legal documents, or offer definitive legal conclusions.  
+            - Always encourage users to consult a qualified attorney for case-specific advice.  
 
-            Chat history:
-            {chat_history}
+            Chat history:  
+            {chat_history}  
 
-            User: {input}
-            Assistant:
+            User: {input}  
+            Assistant:  
             """
         )
         
