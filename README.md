@@ -26,6 +26,7 @@ Both branches can be run using the same methods described below.
 2. Configure the following environment variables:
    - For variables with "your_" prefix: Replace with your actual credentials
    - For other variables: Keep the default values as shown
+# Note: When using Docker, you can set any password for `DATABASE_PASSWORD` since the database runs in an isolated container. However, if you’re running PostgreSQL locally (outside of Docker), you must use the password configured for your local PostgreSQL instance. It is recommended to use the same password in both environments to simplify configuration and minimize connection issues.
 
 ```
 FRONTEND_TARGET="localhost"
