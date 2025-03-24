@@ -39,7 +39,7 @@ DATABASE_NAME="legalchatbot"
 
 ## Running with Docker (Recommended)
 
-1. Ensure Docker and Docker Compose are installed
+1. Ensure Docker and Docker Compose are installed (Docker Desktop includes both Docker & Docker Compose)
 2. Make sure Docker Desktop is open and running before proceeding
 3. Navigate to the root directory of the project
 4. Run the following command:
